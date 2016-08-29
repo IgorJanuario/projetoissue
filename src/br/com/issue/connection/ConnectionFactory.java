@@ -1,21 +1,22 @@
 package br.com.issue.connection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.net.UnknownHostException;
+
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
 
 public class ConnectionFactory {
 	
-	static {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-	}
+	public static DBCollection getConnection(String nomeCollection) throws
+	UnknownHostException
+	{  
+		// Conecta ao servidor mongodb
+        MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
+        // Conecta ao banco de dados test
+        DB db = mongoClient.getDB( "test" );    
+        DBCollection coll = db.getCollection(nomeCollection);
 
-	// Obtém conexão com o banco de dados
-	public static Connection obtemConexao() throws SQLException {
-		return DriverManager.getConnection("jdbc:mysql://localhost/issue?user=root&password=igor13");
+        return coll;
 	}
 }

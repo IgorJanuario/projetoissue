@@ -1,5 +1,7 @@
 package br.com.issue.model;
 
+import com.mongodb.DBObject;
+
 public class User {
 
 	private int id;
@@ -38,4 +40,15 @@ public class User {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	
+	public static User converterToUser(DBObject dbo) {
+        User user = new User();
+
+        user.setId((int) dbo.get("_id"));
+        user.setNome((String) dbo.get("nome"));
+        user.setLogin((String) dbo.get("login"));
+        user.setSenha((String) dbo.get("senha"));
+
+        return user;
+    }
 }
